@@ -93,7 +93,7 @@ public class NoticeServiceTest {
 
         when(noticeRepository.findById(noticeId)).thenReturn(Optional.empty());
 
-        // Act
+        // Execute
         Assertions.assertThrows(NoSuchElementException.class, () -> {
             noticeService.getNoticeById(noticeId);
         });

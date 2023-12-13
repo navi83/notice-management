@@ -37,7 +37,7 @@ public class AttachmentServiceImpl implements AttachmentService {
     private NoticeRepository noticeRepository;
 
     @Override
-    public List<AttachmentResponse> createAttachment(UUID noticeId, List<MultipartFile> attachments) throws IOException{
+    public List<AttachmentResponse> createAttachment(UUID noticeId, List<MultipartFile> attachments) throws IOException {
         Notice notice = noticeRepository.findById(noticeId).get();
         List<AttachmentResponse> result = new ArrayList<>();
         for (MultipartFile item : attachments) {

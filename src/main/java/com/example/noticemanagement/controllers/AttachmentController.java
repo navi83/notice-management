@@ -1,6 +1,9 @@
 package com.example.noticemanagement.controllers;
 
 import com.example.noticemanagement.services.AttachmentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +19,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/attachments")
 @RestController
 @Slf4j
+@Tag(name = "Attachment Controller")
 public class AttachmentController {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(AttachmentController.class);
@@ -23,18 +27,21 @@ public class AttachmentController {
     @Autowired
     private AttachmentService attachmentService;
 
+    @Operation(description = "Get Attachment by noticeId")
     @GetMapping(value = "/{noticeId}")
     public ResponseEntity<?> getAttachment(@PathVariable UUID noticeId) {
         LOGGER.info("Process get attachment by noticeId");
         return ResponseEntity.ok(attachmentService.getAttachment(noticeId));
     }
 
+    @Operation(description = "Create Attachment")
     @PostMapping(value = "/{noticeId}", consumes = {"multipart/form-data"})
-    public ResponseEntity<?> createAttachment(@PathVariable UUID noticeId, @RequestPart List<MultipartFile> attachments) throws IOException {
+    public ResponseEntity<?> createAttachment(@PathVariable UUID noticeId, @RequestBody List<MultipartFile> attachments) throws IOException {
         LOGGER.info("Process create attachment");
         return ResponseEntity.ok(attachmentService.createAttachment(noticeId, attachments));
     }
 
+    @Operation(description = "Delete Attachment")
     @PostMapping(value = "/delete/{attachmentId}")
     public ResponseEntity<?> deleteAttachment(@PathVariable UUID attachmentId) {
         LOGGER.info("Process delete attachment");
