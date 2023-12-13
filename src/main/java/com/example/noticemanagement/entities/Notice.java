@@ -5,12 +5,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
-
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -40,9 +37,5 @@ public class Notice extends BaseEntity {
 
     @OneToMany(mappedBy = "notice", cascade = CascadeType.ALL)
     private List<Attachment> attachFiles;
-
-
-//    start date and time, notice end date and time, attached files
-    //  registration date, number of views, author
 
 }

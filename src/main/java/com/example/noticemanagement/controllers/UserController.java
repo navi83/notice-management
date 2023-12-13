@@ -28,7 +28,7 @@ public class UserController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<?> register(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequest request) {
         LOGGER.info("Process authenticate account");
         return ResponseEntity.ok(service.authenticate(request));
     }

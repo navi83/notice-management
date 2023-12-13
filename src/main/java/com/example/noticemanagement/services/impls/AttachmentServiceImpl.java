@@ -1,6 +1,5 @@
 package com.example.noticemanagement.services.impls;
 
-import com.example.noticemanagement.controllers.AttachmentController;
 import com.example.noticemanagement.dtos.responses.AttachmentResponse;
 import com.example.noticemanagement.entities.Attachment;
 import com.example.noticemanagement.entities.Notice;
@@ -38,7 +37,7 @@ public class AttachmentServiceImpl implements AttachmentService {
     private NoticeRepository noticeRepository;
 
     @Override
-    public List<AttachmentResponse> createAttachment(UUID noticeId, List<MultipartFile> attachments) throws IOException {
+    public List<AttachmentResponse> createAttachment(UUID noticeId, List<MultipartFile> attachments) throws IOException{
         Notice notice = noticeRepository.findById(noticeId).get();
         List<AttachmentResponse> result = new ArrayList<>();
         for (MultipartFile item : attachments) {
@@ -49,7 +48,6 @@ public class AttachmentServiceImpl implements AttachmentService {
             attachment.setNotice(notice);
             result.add(attachmentResponseMapper.convertToDto(attachmentRepository.save(attachment)));
         }
-
         return result;
     }
 
