@@ -5,6 +5,7 @@ A notice management application based on Spring Boot
 - [Features](#features)
 - [Technologies](#technoloies)
 - [Getting Started](#getting-started)
+- [Key problem solving strategies](#key-problem-solving-strategies)
 
 <a id="features"></a>
 ## Features
@@ -20,25 +21,30 @@ A notice management application based on Spring Boot
 - Get attachment by noticeId
 - Create/Delete attachments
 ##### Note: must be logged in with role admin to be able to Create/Delete attachment
-#### Notice View
-##### Prerequisite: must be logged in and have access token ready in Authorization header
+
 <a id="technoloies"></a>
 ## Technologies
 - Spring Boot 3 
 - Spring Security
-- JSON Web Tokens (JWT)
+- Spring Data JPA
 - Maven 3
 - MS SQL Server
-- Flyway
-- Junit
+- Flyway, Lombok, Junit, JSON Web Tokens (JWT)
 
 <a id="getting-started"></a>
 ## Getting Started
-To get started with this project, you will need to have the following installed on your local machine:
+To get started with this project, follow these steps:
 
-- JDK 17+
-- Maven 3+ 
+- Install JDK 17+, Maven 3+ 
 - Add database "notice-management" to MS SQL Server
+- Update database configuration in resource/application.yml
+- Build and run the application
 
 After successfully run the application, the Swagger UI is available at http://localhost:8080/swagger-ui/index.html
 
+<a id="key-problem-solving-strategies"></a>
+## Key problem-solving strategies
+
+- The uploaded file is store in database with BLOB type, it is recommended to save the attachment files on the separate File Server (for instance AWS S3, Cloudinary, Google Cloud Storage)
+- To handle with high volume traffic, I would like to recommend using ElasticSearch to reduce DB connections. 
+- To robust the API response speed, I would like to recommend implement caching mechanisms to store frequently accessed data, for instance Spring Boot Cache or Redis, and using indexes in the database.

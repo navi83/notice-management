@@ -1,5 +1,6 @@
 package com.example.noticemanagement.mappers;
 
+import com.example.noticemanagement.dtos.requests.NoticeRequest;
 import com.example.noticemanagement.dtos.responses.NoticeResponse;
 import com.example.noticemanagement.entities.Notice;
 import org.springframework.stereotype.Component;
@@ -18,5 +19,14 @@ public class NoticeMapper {
             noticeResponse.setAuthor(notice.getAuthor().getUsername());
         }
         return noticeResponse;
+    }
+
+    public Notice convertToEntity(NoticeRequest noticeRequest) {
+        Notice notice = new Notice();
+        notice.setTitle(noticeRequest.getTitle());
+        notice.setContent(noticeRequest.getContent());
+        notice.setStartDate(noticeRequest.getStartDate());
+        notice.setEndDate(noticeRequest.getEndDate());
+        return notice;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.noticemanagement.services.impls;
 
+import com.example.noticemanagement.dtos.requests.NoticeRequest;
 import com.example.noticemanagement.dtos.responses.NoticeResponse;
 import com.example.noticemanagement.entities.Notice;
 import com.example.noticemanagement.mappers.NoticeMapper;
@@ -57,7 +58,9 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public NoticeResponse createNotice(Notice notice) {
+    public NoticeResponse createNotice(NoticeRequest noticeRequest) {
+        Notice notice = noticeMapper.convertToEntity(noticeRequest);
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication != null && authentication.isAuthenticated()) {
@@ -72,7 +75,9 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public NoticeResponse updateNotice(Notice notice) {
+    public NoticeResponse updateNotice(NoticeRequest noticeRequest, UUID id) {
+        Notice notice = noticeMapper.convertToEntity(noticeRequest);
+        notice.setId(id);
         noticeRepository.updateNotice(notice);
         Notice updatedNotice = noticeRepository.findById(notice.getId()).orElseThrow();
         NoticeResponse noticeResponse = noticeMapper.convertToDto(updatedNotice);

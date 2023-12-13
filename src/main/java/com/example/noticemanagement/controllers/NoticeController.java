@@ -1,9 +1,9 @@
 package com.example.noticemanagement.controllers;
 
+import com.example.noticemanagement.dtos.requests.NoticeRequest;
 import com.example.noticemanagement.entities.Notice;
 import com.example.noticemanagement.services.NoticeService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -14,7 +14,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.UUID;
 
 @RequestMapping("/api/v1/notices")
@@ -28,7 +30,7 @@ public class NoticeController {
     @Autowired
     private NoticeService noticeService;
 
-    @Operation(description = "Get all notices")
+    @Operation(summary = "Get all notices")
     @GetMapping(value = "/all")
     public ResponseEntity<?> getAllNotices(@RequestParam(defaultValue = "0") Integer offset,
                                            @RequestParam(defaultValue = "100") Integer limit) {
@@ -38,28 +40,28 @@ public class NoticeController {
         return ResponseEntity.ok(noticeService.getAllNotice(pageable));
     }
 
-    @Operation(description = "Get notice by Id")
+    @Operation(summary = "Get notice by Id")
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getNoticeById(@PathVariable UUID id) {
         LOGGER.info("Process get notice by ID");
         return ResponseEntity.ok(noticeService.getNoticeById(id));
     }
 
-    @Operation(description = "Create notice")
+    @Operation(summary = "Create notice")
     @PostMapping(value = "/create-notice")
-    public ResponseEntity createNotice(@RequestBody Notice notice) {
+    public ResponseEntity createNotice(@RequestBody NoticeRequest noticeRequest)  {
         LOGGER.info("Process create notice");
-        return ResponseEntity.ok(noticeService.createNotice(notice));
+        return ResponseEntity.ok(noticeService.createNotice(noticeRequest));
     }
 
-    @Operation(description = "Update notice")
-    @PostMapping(value = "/update-notice")
-    public ResponseEntity updateNotice(@RequestBody Notice notice) {
+    @Operation(summary = "Update notice")
+    @PostMapping(value = "/{id}/update-notice")
+    public ResponseEntity updateNotice(@PathVariable UUID id, @RequestBody NoticeRequest noticeRequest) {
         LOGGER.info("Process update notice");
-        return ResponseEntity.ok(noticeService.updateNotice(notice));
+        return ResponseEntity.ok(noticeService.updateNotice(noticeRequest, id));
     }
 
-    @Operation(description = "Delete notice")
+    @Operation(summary = "Delete notice")
     @PostMapping(value = "/delete/{id}")
     public ResponseEntity<?> deleteNoticeById(@PathVariable UUID id) {
         LOGGER.info("Process delete notice by ID");

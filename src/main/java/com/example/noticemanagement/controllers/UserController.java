@@ -24,14 +24,14 @@ public class UserController {
 
     private final AuthenticationService service;
 
-    @Operation(description = "Create account")
+    @Operation(summary = "Create account")
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
         LOGGER.info("Process register account");
         return ResponseEntity.ok(service.register(request));
     }
 
-    @Operation(description = "Log in")
+    @Operation(summary = "Log in")
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequest request) {
         LOGGER.info("Process authenticate account");

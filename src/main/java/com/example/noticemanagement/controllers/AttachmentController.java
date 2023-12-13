@@ -27,21 +27,21 @@ public class AttachmentController {
     @Autowired
     private AttachmentService attachmentService;
 
-    @Operation(description = "Get Attachment by noticeId")
+    @Operation(summary = "Get Attachment by noticeId")
     @GetMapping(value = "/{noticeId}")
     public ResponseEntity<?> getAttachment(@PathVariable UUID noticeId) {
         LOGGER.info("Process get attachment by noticeId");
         return ResponseEntity.ok(attachmentService.getAttachment(noticeId));
     }
 
-    @Operation(description = "Create Attachment")
+    @Operation(summary = "Create Attachment")
     @PostMapping(value = "/{noticeId}", consumes = {"multipart/form-data"})
     public ResponseEntity<?> createAttachment(@PathVariable UUID noticeId, @RequestBody List<MultipartFile> attachments) throws IOException {
         LOGGER.info("Process create attachment");
         return ResponseEntity.ok(attachmentService.createAttachment(noticeId, attachments));
     }
 
-    @Operation(description = "Delete Attachment")
+    @Operation(summary = "Delete Attachment")
     @PostMapping(value = "/delete/{attachmentId}")
     public ResponseEntity<?> deleteAttachment(@PathVariable UUID attachmentId) {
         LOGGER.info("Process delete attachment");

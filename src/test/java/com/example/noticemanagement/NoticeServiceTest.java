@@ -1,5 +1,6 @@
 package com.example.noticemanagement;
 
+import com.example.noticemanagement.dtos.requests.NoticeRequest;
 import com.example.noticemanagement.dtos.responses.NoticeResponse;
 import com.example.noticemanagement.entities.Notice;
 import com.example.noticemanagement.mappers.NoticeMapper;
@@ -10,10 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.mockito.Mockito.*;
 
@@ -35,10 +35,11 @@ public class NoticeServiceTest {
     @Test
     void testCreateNoticeSuccess() {
         // Create data
-        Notice inputNotice = validNotice();
+        NoticeRequest inputNotice = validNoticeRequest();
         Notice savedNotice = savedNotice();
         NoticeResponse noticeResponse = noticeResponse();
 
+        when(noticeMapper.convertToEntity(any(NoticeRequest.class))).thenReturn(savedNotice);
         when(noticeRepository.save(any(Notice.class))).thenReturn(savedNotice);
         when(noticeMapper.convertToDto(any(Notice.class))).thenReturn(noticeResponse);
 
@@ -55,8 +56,13 @@ public class NoticeServiceTest {
     @Test
     void testCreateNoticeFail() {
         // Create invalid notice, missing title
-        Notice inputNotice = new Notice();
+        NoticeRequest inputNotice = new NoticeRequest();
         inputNotice.setContent("Test Content");
+
+        Notice savedNotice = new Notice();
+        savedNotice.setContent("Test Content");
+
+        when(noticeMapper.convertToEntity(any(NoticeRequest.class))).thenReturn(savedNotice);
 
         // Execute
         noticeService.createNotice(inputNotice);
@@ -103,8 +109,8 @@ public class NoticeServiceTest {
         verifyNoInteractions(noticeMapper);
     }
 
-    private Notice validNotice() {
-        Notice inputNotice = new Notice();
+    private NoticeRequest validNoticeRequest() {
+        NoticeRequest inputNotice = new NoticeRequest();
         inputNotice.setTitle("Test Title");
         inputNotice.setContent("Test Content");
         return inputNotice;
