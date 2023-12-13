@@ -50,6 +50,8 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     public NoticeResponse getNoticeById(UUID id) {
         Notice notice = noticeRepository.findById(id).orElseThrow();
+        int noticeView = notice.getTotalView() + 1;
+        noticeRepository.updateTotalView(noticeView, id);
         NoticeResponse noticeResponse = noticeMapper.convertToDto(notice);
         return noticeResponse;
     }
@@ -71,7 +73,8 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public NoticeResponse updateNotice(Notice notice) {
-        Notice updatedNotice = noticeRepository.save(notice);
+        noticeRepository.updateNotice(notice);
+        Notice updatedNotice = noticeRepository.findById(notice.getId()).orElseThrow();
         NoticeResponse noticeResponse = noticeMapper.convertToDto(updatedNotice);
         return noticeResponse;
     }
